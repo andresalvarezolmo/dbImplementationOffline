@@ -1,0 +1,52 @@
+<%- include("./partials/head") %>
+<%- include("./partials/navigation", {ses: ses}) %>
+
+<main>
+  <div class="jumbotron" style="margin: 40px;">
+    <div class="col d-flex justify-content-center">
+        <div class="card text-right" style="max-width: 500px;">
+            <div class="card-header">
+                Add a new Dish to the Menu
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Enter Details</h5>
+   
+                <% if (typeof(message) !== "undefined") { %>
+                    <div class="alert alert-success" role="alert">
+                      <h4><%= message %></h4>
+                    </div>
+                  <% } %>
+
+                <% if (typeof(errors) !== "undefined" && Object.entries(errors).length !== 0) { %>
+                
+                    <div class="alert alert-danger" role="alert">
+                        <h1>Input Data Invalid</h1>
+                        <% errors.forEach((err_msg) => { %>
+                            <%= err_msg%><br />
+                        <% })%>
+                    </div>
+                <% } %>
+
+<form class="" action="/menu/insert" method="post">
+  <label for="Price">Price*</label>
+  <input type="number" name="Price" value=""><br />
+  <label for="PreparationTime">Preparation Time*</label>
+  <input type="number" name="PreparationTime" value=""><br />
+  <label for="DishName">Dish Name*</label>
+  <input type="text" name="DishName" value=""><br />
+
+
+  <label for="AvailableAtRestaurant">AvailableAtRestaurant*</label>
+  <input type="number" name="AvailableAtRestaurant" value=""><br />
+
+  <input type="submit" name="submit" value="Add Dish">
+</form>
+
+</div>
+</div>
+</div>
+
+</div>
+</main>
+
+<%- include("partials/footer") %>

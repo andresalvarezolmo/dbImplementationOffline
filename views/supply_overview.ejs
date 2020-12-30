@@ -1,0 +1,82 @@
+<%- include("./partials/head") %>
+<%- include("./partials/navigation", {ses: ses}) %>
+
+<main>
+<div class="jumbotron">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <h1>Supply</h1>
+      </div>
+      <div class="col-sm" style="text-align: right;">
+        <% if (ses.logged) { %>
+          Status: logged in <br>
+          Position: <%=ses.position%> <br>
+      </div>
+    </div>
+    <hr class="my-4">
+          <div class="row">
+            <div class="col-sm">
+              <% if (ses.position === 'Director' || ses.position === 'Manager') { %>
+              <a href="/supply/insert"><button type="button" class="btn btn-success"name="button">Add supply</button></a>
+              <% } %>
+            </div>
+          
+            <div class="col-sm" style="text-align: right;">
+
+          <div class="sortButton" style="margin-bottom: 10px">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sort by
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/supply/sort/SupplyID-desc">SupplyID (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/supply/sort/SupplyID-asc">SupplyID (Lowest -> Highest)</a>
+            <a class="dropdown-item" href="/supply/sort/IngredientName-desc">IngredientName (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/supply/sort/IngredientName-asc">IngredientName (Lowest -> Highest)</a>
+            <a class="dropdown-item" href="/supply/sort/Unit-desc">Unit (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/supply/sort/Unit-asc">Unit (Lowest -> Highest)</a>
+            <a class="dropdown-item" href="/supply/sort/StockLeft-desc">StockLeft (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/supply/sort/StockLeft-asc">StockLeft (Lowest -> Highest)</a>
+            <a class="dropdown-item" href="/supply/sort/RestaurantID-desc">RestaurantID (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/supply/sort/RestaurantID-asc">RestaurantID (Lowest -> Highest)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thread>
+        <tr>
+          <th scope="col" style="width: 25%">SupplyID</th>
+          <th scope="col" style="width: 25%">IngredientName</th>
+          <th scope="col" style="width: 20%">Unit</th>
+          <th scope="col" style="width: 15%">Stock Left</th>
+          <th scope="col" style="width: 15%">RestaurantID</th>
+        </tr>
+      </thread>
+      <tbody>
+
+        <% supply.forEach((s) => { %>
+          <tr>
+          <td><%=s.SupplyID %> </td>
+          <td><%=s.IngredientName%></td>
+          <td><%=s.Unit%>
+          <td><%=s.stockLeft%></td>
+          <td><%=s.RestaurantID%>
+          </tr>
+        <%})%>
+
+      </tbody>
+    </table>
+    </div>
+
+<% } else {%>
+<h3 class="NotLoggedIn"> *** You are not logged in *** </h3>
+<% } %>
+
+</div>
+</main>
+<%-  include("partials/footer") %>

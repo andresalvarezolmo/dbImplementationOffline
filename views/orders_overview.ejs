@@ -1,0 +1,150 @@
+<%- include("./partials/head") %>
+<%- include("./partials/navigation", {ses: ses}) %>
+
+<main>
+  <div class="jumbotron">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <h1>Orders</h1>
+        </div>
+        <hr class="my-4">
+         
+          
+          <% if (ses.logged) { %>
+            <div class="col-sm" style="text-align: right;">
+            Status: logged in <br>
+            Position: <%=ses.position%> <br>
+          <% if (ses.position === 'Waiter') { %>
+          
+          <div class="Button">
+            <a href="/orders/insert"><button type="button" class="btn btn-success" name="button">Add Order</button></a>
+          </div>
+
+
+          <div class="sortButton" style="margin-bottom: 10px">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Sort by
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="/orders/sort/OrderID-desc">OrderID (Newest -> Oldest)</a>
+              <a class="dropdown-item" href="/orders/sort/OrderID-asc">OrderID (Oldest -> Newest)</a>
+              <a class="dropdown-item" href="/orders/sort/FoodOrderTime-desc">FoodOrderTime (Highest -> Lowest)</a>
+              <a class="dropdown-item" href="/orders/sort/FoodOrderTime-asc">FoodOrderTime (Lowest -> Highest)</a>
+              <a class="dropdown-item" href="/orders/sort/Price-desc">Price (Highest -> Lowest)</a>
+              <a class="dropdown-item" href="/orders/sort/Price-asc">Price (Lowest -> Highest)</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thread>
+          <tr>
+            <th scope="col" style="width: 10%">OrderID</th>
+            <th scope="col" style="width: 20%">Order Time (DD/MM/YYYY HH:mm:ss)</th>
+            <th scope="col" style="width: 10%">Price</th>
+
+            <% if (ses.position === 'Chef') { %><th scope="col" style="width: 30%">Mark as Prepared</th><% } %>
+          </tr>
+        </thread>
+        <tbody>
+
+          <% orders.forEach((s) => { %>
+          <tr>
+            <td><%=s.OrderID %> </td>
+            <td><%=moment(s.FoodOrderTime).format('DD/MM/YYYY HH:mm:ss'); %> </td>
+            <td><%=s.Price %> </td>
+          </tr>
+          <% }) %>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-sm" style="text-align: right;">
+
+
+    <% } else if (ses.position === 'Chef') { %>
+
+    
+    <hr class="my-4">
+    <div class="col-sm" style="text-align: right;">
+    <div class="sortButton" style="margin-bottom: 10px">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        Sort by
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="/orders/sort/OrderID-desc">OrderID (Newest -> Oldest)</a>
+        <a class="dropdown-item" href="/orders/sort/OrderID-asc">OrderID (Oldest -> Newest)</a>
+        <a class="dropdown-item" href="/orders/sort/FoodOrderTime-desc">FoodOrderTime (Highest -> Lowest)</a>
+        <a class="dropdown-item" href="/orders/sort/FoodOrderTime-asc">FoodOrderTime (Lowest -> Highest)</a>
+        <a class="dropdown-item" href="/orders/sort/DishID-desc">DishID (Highest -> Lowest)</a>
+        <a class="dropdown-item" href="/orders/sort/DishID-asc">DishID (Lowest -> Highest)</a>
+        <a class="dropdown-item" href="/orders/sort/DishName-desc">DishName (Highest -> Lowest)</a>
+        <a class="dropdown-item" href="/orders/sort/DishName-asc">DishName (Lowest -> Highest)</a>
+        <a class="dropdown-item" href="/orders/sort/Prepared-desc">Prepared (Highest -> Lowest)</a>
+        <a class="dropdown-item" href="/orders/sort/Prepared-asc">Prepared (Lowest -> Highest)</a>
+      </div>
+    </div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thread>
+        <tr>
+          <th scope="col" style="width: 10%">OrderID</th>
+          <th scope="col" style="width: 20%">Order Time (DD/MM/YYYY HH:mm:ss)</th>
+          <th scope="col" style="width: 10%">DishID</th>
+          <th scope="col" style="width: 10%">Quantity</th>
+          <th scope="col" style="width: 30%">Dish Name</th>
+          <th scope="col" style="width: 20%">Prepared</th>
+          <th scope="col" style="width: 30%">Mark as Prepared</th>
+        </tr>
+      </thread>
+      <tbody>
+
+        <% orders.forEach((s) => { %>
+          <form action="/orders/completed" method="POST">
+          <tr>
+          <td><% if(s.Prepared == 'NO') {%> <input type="hidden" name="OrderID" value="<%=s.OrderID %>"><% } %> <%=s.OrderID %> </td>
+          <td><%=moment(s.FoodOrderTime).format('DD/MM/YYYY HH:mm:ss'); %> </td>
+            <td><% if(s.Prepared == 'NO') {%> <input type="hidden" name="DishID" value="<%=s.DishID %>"><% } %> <%=s.DishID %> </td>
+            <td><%=s.Quantity %> </td>
+            <td><%=s.DishName %> </td>
+            <td><%=s.Prepared %> </td>
+            <% if (ses.position === 'Chef' && s.Prepared == 'NO') { %>
+            <td>
+              <!-- <a class="btn btn-secondary btn-sm btn-block" type="submit"><i
+                  class="fa fa-check"></i></a> -->
+              <button type="submit" class="btn btn-success">✓</button>
+            </td>
+          </tr>
+        </form>
+
+        <%}%>
+       <%})%>
+
+
+
+      </tbody>
+    </table>
+  </div>
+  <% } %>
+
+
+  <% } else {%>
+  <h3 class="NotLoggedIn"> ***You are not logged in*** </h3>
+  <% } %>
+
+  </div>
+</main>
+<%-  include("partials/footer") %>

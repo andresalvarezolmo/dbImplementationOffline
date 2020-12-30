@@ -1,0 +1,104 @@
+<%- include("./partials/head") %>
+<%- include("./partials/navigation", {ses: ses}) %>
+
+<main>
+  <div class="jumbotron">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <h1>Dish List</h1>
+          
+          <% if (ses.logged) { %>
+            <% if (typeof(message) !== "undefined") { %>
+              <div class="alert alert-success" role="alert">
+                <h4><%= message %></h4>
+              </div>
+            <% } %>
+          
+          <hr class="my-4">
+         
+           </div>
+        
+        <div class="col-sm" style="text-align: right;">
+
+          Status: logged in <br>
+          Position: <%=ses.position%> <br>
+
+        </div>
+      </div>
+      <div class="row">
+<div class="col">
+        <form method="POST" action="/orders/createOrder">
+          <button class="btn btn-default btn-rounded" type="submit">Place Order</button>
+      
+        </div>
+        <div class="col">
+          <div class="sortButton" style="margin-bottom: 10px">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Sort by
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="/menu/sort/DishID-desc">DishID (Highest -> Lowest)</a>
+              <a class="dropdown-item" href="/menu/sort/DishID-asc">DishID (Lowest -> Highest)</a>
+              <a class="dropdown-item" href="/menu/sort/Price-desc">Price (Highest -> Lowest)</a>
+              <a class="dropdown-item" href="/menu/sort/Price-asc">Price (Lowest -> Highest)</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+   
+
+    <div class="alert alert-light" role="alert" style="text-align: center;">
+      Select dishes to add to a new order
+    </div>
+
+
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thread>
+          <tr>
+            <th scope="col" style="width: 10%">DishID</th>
+            <th scope="col" style="width: 20%">DishName</th>
+            <th scope="col" style="width: 20%">Price</th>
+            <th scope="col" style="width: 10%">Count</th>
+          </tr>
+        </thread>
+        <tbody>
+
+          <% dishes.forEach((d) => { %>
+          <tr>
+            <td><%=d.DishID %> </td>
+            <td><%=d.DishName%> </td>
+            <td>£<%=d.Price %> </td>
+
+
+            <% if (ses.position === 'Chef' || ses.position === 'Waiter') { %>
+              <td>
+                <div class="def-number-input number-input safari_only mb-0 w-100">
+                  <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                    class="minus decrease" type="button"></button>
+                  <input class="quantity" min="0" name="<%=d.DishID %>" value="0" type="number">
+                  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                    class="plus increase" type="button"></button>
+                    <input type="hidden" name="price" value="<%= d.Price %> " type="number">
+                </div>
+              </td>
+            <% } %>
+          </tr>
+          <%})%>
+        </form>
+        </tbody>
+      </table>
+    </div>
+
+    <% } else {%>
+    <h3 class="NotLoggedIn"> *** You are not logged in *** </h3>
+    <% } %>
+
+  </div>
+</main>
+
+<%- include("partials/footer") %>

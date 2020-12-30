@@ -1,0 +1,114 @@
+<%- include("./partials/head") %>
+<%- include("./partials/navigation", {ses: ses}) %>
+
+<main>
+<div class="jumbotron">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <h1>Staff</h1>
+      </div>
+      <div class="col-sm" style="text-align: right;">
+        <% if (ses.logged) { %>
+          Status: logged in <br>
+          Position: <%=ses.position%> <br>
+      </div>
+    </div>
+          <hr class="my-4">
+          <div class="row">
+            <div class="col-sm">
+              <% if (ses.position === 'Director' || ses.position === 'Manager') { %>
+                <a href="/staff/insert"><button type="button" class="btn btn-success"name="button">Add Staff</button></a>
+      
+                <% } %>
+            </div>
+            <div class="col-sm" style="text-align: right;">
+
+          <div class="sortButton" style="margin-bottom: 10px">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sort by
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/staff/sort/StaffID-desc">StaffID (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/staff/sort/StaffID-asc">StaffID (Lowest -> Highest)</a>
+            <a class="dropdown-item" href="/staff/sort/StaffSalary-desc">Salary (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/staff/sort/StaffSalary-asc">Salary (Lowest -> Highest)</a>
+            <a class="dropdown-item" href="/staff/sort/StaffName-desc">Name (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/staff/sort/StaffName-asc">Name (Lowest -> Highest)</a>
+            <a class="dropdown-item" href="/staff/sort/StaffPosition-desc">Position (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/staff/sort/StaffPosition-asc">Position (Lowest -> Highest)</a>
+            <a class="dropdown-item" href="/staff/sort/fk_RestaurantID-desc">RestaurantID (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/staff/sort/fk_RestaurantID-asc">RestaurantID (Lowest -> Highest)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thread>
+        <tr>
+          <th scope="col" style="width: 15%">StaffID</th>
+          <th scope="col" style="width: 20%">Name</th>
+          <th scope="col" style="width: 30%">Address</th>
+          <th scope="col" style="width: 15%">Salary</th>
+          <th scope="col" style="width: 15%">Position</th>
+          <th scope="col" style="width: 15%">Insurance No</th>
+          <th scope="col" style="width: 15%">Restaurant ID</th>
+          <% if (ses.position === 'Manager' || ses.position === 'Director') { %><th></th><% } %>
+        </tr>
+      </thread>
+      <tbody>
+
+        <% staff.forEach((s) => { %>
+          <tr>
+          <td><%=s.StaffID %> </td>
+          <td><%=s.StaffName%></td>
+          <td><%=s.StreetNo%> <%=s.StreetName%> - <%=s.postcode%> <%=s.city%></td>
+          <td><%=s.StaffSalary%></td>
+          <td><%=s.StaffPosition%></td>
+          <td><%=s.StaffInsuranceNo%></td>
+          <td><%=s.fk_RestaurantID%></td>
+            <% if (ses.position === 'Manager' || ses.position === 'Director') { %>
+              <td>
+                <a class="btn btn-secondary btn-sm btn-block" href="/staff/updateStaff/<%=s.StaffID%>" ><i class="fa fa-edit"></i></a>
+                <a class="btn btn-secondary btn-sm btn-block" href="#" onclick="ask_delete(<%=s.StaffID%>)"><i class="fa fa-trash"></i></a>
+              </td>
+            <% } %>
+          </tr>
+        <%})%>
+
+      </tbody>
+    </table>
+    </div>
+
+<% } else {%>
+<h3 class="NotLoggedIn"> *** You are not logged in *** </h3>
+<% } %>
+
+</div>
+</main>
+<script>
+  function ask_delete(del_id) {
+    var choice = confirm("Delete User?")
+    // TODO send a request to delete a user
+    if (choice) {
+      var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+
+     window.location.reload()
+    }
+  };
+
+  xhttp.open("POST", "/staff/delete", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("del_id="+del_id);
+
+    }
+  }
+
+</script>
+<%-  include("partials/footer") %>

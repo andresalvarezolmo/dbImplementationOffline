@@ -1,0 +1,74 @@
+<header>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	  <a class="navbar-brand" href="/">Baba Ganoush</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+		<ul class="navbar-nav">
+  
+		  <% if (typeof(ses) !== "undefined" && ses.logged) { %>
+  
+		  <!-- Director Navbar -->
+		  <% if (ses.position === 'Director') { %>
+  
+		  <li class="nav-item">
+			<a class="nav-link" href="/statistics">Overview</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="/staff">Staff</a>
+		  </li>
+		 
+  
+		  <!-- Manager Navbar-->
+		  <% } else if (ses.position === 'Manager') { %>
+  
+		  <li class="nav-item">
+			<a class="nav-link" href="/statistics">Restaurant Overview</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="/staff">Staff</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="/menu">Menu</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="/supply">Supply</a>
+		  </li>
+  
+		  <!-- Staff Navbar-->
+		  <% } else if (ses.position === 'Chef' || ses.position === 'Waiter') { %>
+  
+		  <li class="nav-item">
+			<a class="nav-link" href="/menu">Menu</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="/orders">Orders</a>
+		  </li>
+  
+		  <% } %>
+  
+		  <!-- All -->
+  
+		  <li class="nav-item">
+			<a class="nav-link font-weight-bold" href="/logout">Logout</a>
+		  </li>        
+		  <li class="nav-item">
+			<a class="nav-link disabled" style="color: grey;" href="#"><%= ses.position %> at Branch <%=ses.branch%></a>
+		  </li>
+  
+  
+		  <% } else { %>
+  
+		  <li class="nav-item">
+			<a class="nav-link" href="/login">Login</a>
+		  </li>
+  
+		  <% } %>
+  
+		  </li>
+		</ul>
+	  </div>
+	</nav>
+  </header>
+  

@@ -1,0 +1,53 @@
+
+<%- include("./partials/head") %>
+<%- include("./partials/navigation", {ses: ses}) %>
+
+<main>
+    <div class="jumbotron" style="margin: 40px;">
+        
+        <% if (ses.logged) { %>
+        <h1 style="text-align: center;">Logged in as <%=ses.position%> <br></h1>
+        <hr class="my-4">
+        <h5 style="text-align: center;">Branch: <%=ses.branch%><br /></h5>
+        
+        <% } else {%>
+        <h2 style="text-align: center;">**You are not logged in**</h2>
+        <div class="container my-5 z-depth-1">
+
+
+            <!--Section: Content-->
+            <section class="dark-grey-text">
+          
+              <div class="row pr-lg-5">
+                <div class="col-md-7 mb-4">
+          
+                  <div class="view">
+                    <img src="https://mdbootstrap.com/img/illustrations/graphics(3).png" class="img-fluid" alt="smaple image">
+                  </div>
+          
+                </div>
+                <div class="col-md-5 d-flex align-items-center">
+                  <div>
+                    
+                    <h3 class="font-weight-bold mb-4">Baba Ganoush</h3>
+          
+                    <p>Lorem ipsum dolor aspernatur aperiam voluptate et consectetur minima delectus, fugiat eum soluta blanditiis adipisci, velit dolore magnam.</p>          
+                    <a class="btn btn-amber" href="/login" role="button">Login</a>
+                </div>
+                </div>
+              </div>
+          
+            </section>
+            <!--Section: Content-->
+          
+          
+          </div>
+        <% } %>
+        <hr class="my-4">
+
+     
+    
+    </div>
+</main>
+
+<%- include("partials/footer") %>

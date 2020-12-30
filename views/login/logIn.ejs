@@ -1,0 +1,49 @@
+<%- include('../partials/head.ejs'); %>
+<%- include('../partials/navigation.ejs'); -%>
+    
+<main>
+
+<div class="jumbotron">
+
+    
+    <h1>Log in</h1>
+    <% if(user) { %> 
+        <h2>Welcome <%= user.StaffName %> </h2>
+        <p><%= userString %> </p>
+        <form action="../logout">
+            <br>
+            <input type="submit" value="Log out" />
+        </form>
+    <% } %> 
+    <% if(!user) {%>
+        <hr class="my-4"> 
+        <h2 class="notLoggedIn"> ** No user is logged in ** </h2>
+        <hr class="my-4">
+
+        <div class="container" style="max-width: 350px; text-align: center;">
+
+            <form action="/login/login" method="POST" id="loginDetails">
+                <div class="row">
+                    <!-- <label for="Details" id="LoginLabel">Please enter your log in details</label> -->
+                    <input type="text" name="username" class="form-control" id="inputUsername" placeholder=Username>
+                </div>
+                <div class="row">
+                    <input type="password" name="password" class="form-control" id="inputPassword" placeholder=Password>
+                </div>
+                <div class="row">
+
+                    <!-- not working yet -->
+                    <p id="wrongCredentials" style="display: none;">Please enter valid credentials</p>
+                </div>
+                <button type="submit" class="btn btn-primary" id="loginButton">Log In</button>
+            </form>
+        </div>
+
+
+
+    <% } %> 
+
+</div>
+</main>
+
+<%- include('../partials/footer.ejs'); %>

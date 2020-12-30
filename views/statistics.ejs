@@ -1,0 +1,153 @@
+<%- include("./partials/head") %>
+<%- include("./partials/navigation", {ses: ses}) %>
+
+<div class="jumbotron">
+  <h1>Statistics</h1>
+  <hr class="my-4">
+  <div class="row">
+  <div>
+    <div class="col">
+    <h2>Orders</h2>
+    <hr class="my-4">
+    
+      <select id="select_orders_branchno" onchange="fetch_orders()" class="mdb-select colorful-select dropdown-info">
+        <% if( ses.position === 'Director') { %>
+        <option value="" disabled>Choose your branch</option>
+        <option value="1" selected>Branch 1</option>
+        <option value="2">Branch 2</option>
+        <option value="3">Branch 3</option>
+        <% } else { %>
+        <option value="<%=ses.branch%>" selected>Branch <%= ses.branch %></option>
+        <% } %>
+      </select>
+      <select id="select_orders_time" onchange="fetch_orders()" class="mdb-select colorful-select dropdown-info">
+        <option value="" disabled>Choose the time interval</option>
+        <option value="07_day" >Last 7 days</option>
+        <option value="30_day">Last 30 days</option>
+        <option value="03_month" selected>Last 3 months</option>
+        <option value="06_month">Last 6 months</option>
+        <option value="12_month">last year</option>
+        <option value="03_year">last 3 years</option>
+      </select>
+
+    </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <canvas id="chart_orders"></canvas>
+    </div>
+  </div>
+  <!--
+  <div>
+    <h2>Numbers of different staff at a branch</h2>
+    <select id="select_staff_branchno" onchange="fetch_staffnumbers()" class="mdb-select colorful-select dropdown-info">
+      <% if( ses.position === 'Director') { %>
+      <option value="" disabled>Choose your branch</option>
+      <option value="1">Branch 1</option>
+      <option value="2">Branch 2</option>
+      <option value="3">Branch 3</option>
+      <option value="all" selected>all Branches</option>
+      <% } else { %>
+      <option value="<%=ses.branch%>" selected>Branch <%= ses.branch %></option>
+      <% } %>
+    </select>
+  </div>
+  <div class="row">
+    <h2>Revenue</h2>
+
+    <div class="col">
+    <select id="select_revenue_branchno" onchange="fetch_revenue()" class="mdb-select colorful-select dropdown-info">
+      <% if( ses.position === 'Director') { %>
+      <option value="" disabled>Choose your branch</option>
+      <option value="1">Branch 1</option>
+      <option value="2">Branch 2</option>
+      <option value="3">Branch 3</option>
+      <option value="all" selected>all Branches</option>
+      <% } else { %>
+      <option value="<%=ses.branch%>" selected>Branch <%= ses.branch %></option>
+      <% } %>
+    </select>
+    <select id="select_revenue_time" onchange="fetch_revenue()" class="mdb-select colorful-select dropdown-info">
+      <option value="" disabled>Choose the time interval</option>
+      <option value="1">Last 7 days</option>
+      <option value="2">Last 30 days</option>
+      <option value="3">Last 3 months</option>
+      <option value="" selected>Last 6 months</option>
+      <option value="3">last year</option>
+      <option value="3">last 3 years</option>
+    </select>
+
+</div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <canvas id="chart_revenue"></canvas>
+    </div>
+  </div>
+-->
+  <div>
+    <hr class="my-4">
+    <h2>Numbers of different Staff</h2>
+    <hr class="my-4">
+    <select id="select_staff_branchno" onchange="fetch_staffnumbers()" class="mdb-select colorful-select dropdown-info">
+      <% if( ses.position === 'Director') { %>
+      <option value="" disabled>Choose your branch</option>
+      <option value="1">Branch 1</option>
+      <option value="2">Branch 2</option>
+      <option value="3">Branch 3</option>
+      <option value="all" selected>all Branches</option>
+      <% } else { %>
+      <option value="<%=ses.branch%>" selected>Branch <%= ses.branch %></option>
+      <% } %>
+    </select>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td>Managers</td>
+            <td id="data_staff_managers"></td>
+          </tr>
+          <tr>
+            <td>Chefs</td>
+            <td id="data_staff_chefs"></td>
+          </tr>
+          <tr>
+            <th>Waiters</th>
+            <td id="data_staff_waiters"></td>
+          </tr>
+          <tr>
+            <th>Directors</th>
+            <td id="data_staff_directors"></td>
+          </tr>
+          <tr>
+            <th>TOTAL</th>
+            <td id="data_staff_total"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <div class="text-center">
+        <canvas id="chart_number_staff"></canvas>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<script src="js/statistics.js"></script>
+
+<%- include("partials/footer") %>

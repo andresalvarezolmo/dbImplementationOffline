@@ -1,0 +1,73 @@
+<%- include("./partials/head") %>
+<%- include("./partials/navigation", {ses: ses}) %>
+
+<main>
+  <div class="jumbotron" style="margin: 40px;">
+
+    <div class="col d-flex justify-content-center">
+<div class="card text-right" style="max-width: 500px;">
+  <div class="card-header">
+    Update an existing Staff Member
+  </div>
+  <div class="card-body">
+
+<% if (typeof(message) !== "undefined") { %>
+  <div class="alert alert-success" role="alert">
+    <h4><%= message %></h4>
+  </div>
+<% } %>
+
+<% if (typeof(errors) !== "undefined" && Object.entries(errors).length !== 0) { %>
+<div class="alert alert-danger" role="alert">
+   <h2>Input Data Invalid</h2>
+  <% errors.forEach((err_msg) => { %>
+    <%= err_msg%><br />
+  <% })%>
+  </div>
+<% } %>
+  <form class="" action="/staff/updateStaff" method="post">
+    <p>Enter the StaffID of the person you want to update!</p>
+    <label for="StaffID">StaffID</label>
+    <input type="text" name="StaffID" value="<%=form.StaffID%>"><br />
+    <hr class="my-4">
+    <p>These are the details you can modify:</p>
+    <hr class="my-4">
+    <label for="StaffName">Name*</label>
+    <input type="text" name="StaffName" value="<%=form.StaffName%>"><br />
+    <label for="StaffPassword">Password*</label>
+    <input type="password" name="password" value=""><br />
+    <label for="StreetsNo">Street Number*</label>
+    <input type="number" name="StreetNo" value="<%=form.StreetNo%>"><br />
+    <label for="AddressStreet">Street Name*</label>
+    <input type="text" name="AddressStreet" value="<%=form.AddressStreet%>"><br />
+    <label for="AddressPostcode">Postcode*</label>
+    <input type="text" name="AddressPostcode" value="<%=form.AddressPostcode%>"><br />
+    <label for="City">City*</label>
+    <input type="text" name="City" value="<%=form.AddressCity%>"><br />
+    <label for="StaffSalary">Salary*</label>
+    <input type="number" name="StaffSalary" value="<%=form.StaffSalary%>"><br />
+    <label for="StaffPosition">Position*</label>
+    <select class="" name="StaffPosition" value="<%=form.StaffPosition%>">
+      <option <% if (form.StaffPosition === 'Manager') { %>selected<% } %> value="Manager">Manager</option>
+      <option <% if (form.StaffPosition === 'Chef') { %>selected<% } %> value="Chef">Chef</option>
+      <option <% if (form.StaffPosition === 'Waiter') { %>selected<% } %> value="Waiter">Waiter</option>
+    </select><br />
+    <label for="StaffInsuranceNo">Insurance No*</label>
+    <input type="text" name="StaffInsuranceNo" placeholder="AA 12 34 56 78 V" value="<%=form.StaffInsuranceNo%>"><br />
+    <label for="fk_RestaurantID">Restaurant (ID)*</label>
+      <% if (ses.position === 'Director') { %>
+        <input type="text" name="fk_RestaurantID" value="<%=form.fk_RestaurantID%>"><br />
+      <% } else if (ses.position === 'Manager') { %>
+        <%=ses.branch%>
+        <input type="text" name="fk_RestaurantID" value="<%=ses.branch%>" readonly><br />
+      <% } %>
+    <input type="submit" name="submit" value="Update User">
+  </form>
+</div>
+</div>
+</div>
+
+</div>
+</main>
+
+<%- include("partials/footer") %>

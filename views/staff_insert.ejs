@@ -1,0 +1,68 @@
+<%- include("./partials/head") %>
+<%- include("./partials/navigation", {ses: ses}) %>
+
+<main>
+  <div class="jumbotron" style="margin: 40px;">
+
+    <div class="col d-flex justify-content-center">
+<div class="card text-right" style="max-width: 500px;">
+  <div class="card-header">
+    Add a new Staff Member
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Enter Details</h5>
+
+<% if (typeof(message) !== "undefined") { %>
+  <div class="alert alert-success" role="alert">
+    <h4><%= message %></h4>
+  </div>
+<% } %>
+
+<% if (typeof(errors) !== "undefined" && Object.entries(errors).length !== 0) { %>
+<div class="alert alert-danger" role="alert">
+   <h1>Input Data Invalid</h1>
+  <% errors.forEach((err_msg) => { %>
+    <%= err_msg%><br />
+  <% })%>
+  </div>
+<% } %>
+
+    <form class="" action="/staff/insert" method="post">
+      <label for="StaffName">Name*</label>
+      <input type="text" name="StaffName" value="<%=form.StaffName%>"><br />
+      <label for="StaffPassword">Password*</label>
+      <input type="password" name="password" value=""><br />
+      <label for="StreetsNo">Street Number*</label>
+      <input type="number" name="StreetNo" value="<%=form.StreetNo%>"><br />
+      <label for="AddressStreet">Street Name*</label>
+      <input type="text" name="AddressStreet" value="<%=form.AddressStreet%>"><br />
+      <label for="AddressPostcode">Postcode*</label>
+      <input type="text" name="City" value="<%=form.City%>"><br />
+      <label for="City">City*</label>
+      <input type="text" name="AddressPostcode" value="<%=form.AddressPostcode%>"><br />
+      <label for="StaffSalary">Salary*</label>
+      <input type="number" name="StaffSalary" value="<%=form.StaffSalary%>"><br />
+      <label for="StaffPosition">Position*</label>
+      <select class="" name="StaffPosition">
+        <option value="Manager">Manager</option>
+        <option value="Chef">Chef</option>
+        <option value="Waiter">Waiter</option>
+      </select><br />
+      <label for="StaffInsuranceNo">Insurance No*</label>
+      <input type="text" name="StaffInsuranceNo" placeholder="AA 12 34 56 78 V" value="<%=form.StaffInsuranceNo%>"><br />
+      <label for="fk_RestaurantID">Restaurant (ID)*</label>
+      <% if (ses.position === 'Director') { %><input type="text" name="fk_RestaurantID" value="<%=form.fk_RestaurantID%>"><br />
+      <% } else if (ses.position === 'Manager') { %>
+        <input type="text" name="fk_RestaurantID" value="<%=ses.branch%>" readonly><br />
+      <% } %>
+
+      <input type="submit" name="submit" value="Add Staff">
+    </form>
+</div>
+</div>
+</div>
+
+</div>
+</main>
+
+<%- include("partials/footer") %>

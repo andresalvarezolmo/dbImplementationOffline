@@ -1,0 +1,84 @@
+<%- include("./partials/head") %>
+<%- include("./partials/navigation", {ses: ses}) %>
+
+<main>
+<div class="jumbotron">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <h1>Menu</h1>
+      </div>
+      <div class="col-sm" style="text-align: right;">
+        <% if (ses.logged) { %>
+          Status: logged in <br>
+          Position: <%=ses.position%> <br>
+      </div>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col-sm">
+          <% if (ses.position === 'Director' || ses.position === 'Manager') { %>
+          <a href="/menu/insert"><button type="button" class="btn btn-success"name="button">Add Dish</button></a>
+          <% } %>
+      </div>
+      <div class="col-sm"> 
+
+          <div class="sortButton" style="margin-bottom: 10px">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sort by
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/menu/sort/DishID-desc">DishID (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/menu/sort/DishID-asc">DishID (Lowest -> Highest)</a>
+            <a class="dropdown-item" href="/menu/sort/Price-desc">Price (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/menu/sort/Price-asc">Price (Lowest -> Highest)</a>
+            <a class="dropdown-item" href="/menu/sort/PreparationTime-desc">PreparationTime (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/menu/sort/PreparationTime-asc">PreparationTime (Lowest -> Highest)</a>
+            <a class="dropdown-item" href="/menu/sort/DishName-desc">DishName (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/menu/sort/DishName-asc">DishName (Lowest -> Highest)</a>
+            <a class="dropdown-item" href="/menu/sort/AvailableAtRestaurant-desc">AvailableAtRestaurant (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/menu/sort/AvailableAtRestaurant-asc">AvailableAtRestaurant (Lowest -> Highest)</a>
+            <a class="dropdown-item" href="/menu/sort/Count-desc">Count (Highest -> Lowest)</a>
+            <a class="dropdown-item" href="/menu/sort/Count-asc">Count (Lowest -> Highest)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thread>
+        <tr>
+          <th scope="col" style="width: 20%">DishID</th>
+          <th scope="col" style="width: 20%">Price</th>
+          <th scope="col" style="width: 10%">Prep Time</th>
+          <th scope="col" style="width: 40%">Dish Name</th>
+          <th scope="col" style="width: 10%">Available at Restaurant</th>
+        </tr>
+      </thread>
+      <tbody>
+
+        <% menu.forEach((d) => { %>
+          <tr>
+          <td><%=d.DishID %> </td>
+          <td><%=d.Price%></td>
+          <td><%=d.PreparationTime%>
+          <td><%=d.DishName%></td>
+          <td><%=d.AvailableAtRestaurant%></td>
+          </tr>
+        <%})%>
+
+      </tbody>
+    </table>
+    </div>
+
+<% } else {%>
+<h3 class="NotLoggedIn"> *** You are not logged in *** </h3>
+<% } %>
+
+</div>
+</main>
+<%-  include("partials/footer") %>

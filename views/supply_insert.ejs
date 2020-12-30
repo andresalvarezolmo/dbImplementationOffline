@@ -1,0 +1,49 @@
+<%- include("./partials/head") %>
+<%- include("./partials/navigation", {ses: ses}) %>
+
+
+<main>
+  <div class="jumbotron" style="margin: 40px;">
+    <div class="col d-flex justify-content-center">
+        <div class="card text-right" style="max-width: 500px;">
+            <div class="card-header">
+                Add a Ingredient
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Enter Details</h5>
+   
+                <% if (typeof(message) !== "undefined") { %>
+                    <div class="alert alert-success" role="alert">
+                      <h4><%= message %></h4>
+                    </div>
+                <% } %>
+
+                <% if (typeof(errors) !== "undefined" && Object.entries(errors).length !== 0) { %>
+                
+                    <div class="alert alert-danger" role="alert">
+                        <h1>Input Data Invalid</h1>
+                        <% errors.forEach((err_msg) => { %>
+                            <%= err_msg%><br />
+                        <% })%>
+                    </div>
+                <% } %>
+
+<form class="" action="/supply/insert" method="post">
+  <label for="IngredientName">Ingredient Name*</label>
+  <input type="text" name="IngredientName" value=""><br />
+  <label for="Unit">Unit*</label>
+  <input type="text" id="unit" name="Unit" value=""><br />
+  <p style="color: grey;">g, l, piece, tablespoon or teaspoon</p>
+  <label for="Stock">Stock*</label>
+  <input type="text" name="Stock" value=""><br />
+  <input type="submit" name="submit" value="Add Dish">
+</form>
+
+</div>
+</div>
+</div>
+
+</div>
+</main>
+
+<%- include("partials/footer") %>
